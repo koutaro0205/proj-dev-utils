@@ -1,0 +1,25 @@
+services:
+  app:
+    build: . # Dockerfileがある場所を指定
+    container_name: backend-templatea-app
+    ports:
+      - "8000:8000"
+    volumes:
+      - "./app:/app"
+    tty: true
+    depends_on:
+      - db # dbコンテナが起動してからappコンテナを起動させる
+  db:
+    image: mysql:8.3
+    platform: linux/amd64
+    container_name: backend-templatea-db
+    environment:
+      MYSQL_DATABASE: backend-templatea-db
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - db-volume:/var/lib/mysql
+    ports:
+      - 3306:3306
+
+volumes:
+  db-volume:
